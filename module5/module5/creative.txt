@@ -1,0 +1,19 @@
+Creative Portion
+Jiwon Song  420500
+Amy Xu      429851
+
+Running EC2 address:
+http://ec2-54-68-83-174.us-west-2.compute.amazonaws.com/~Amy/calendar.php
+
+Description:
+Users can tag an event with a particular category and enable/disable those tags in the calendar view.
+Users can share their calendar with additional users.
+Users can create group events that display on multiple users calendars.
+
+Additional Information:
+username    password
+
+amy         amyxu
+jiwon       jiwonsong
+module5     washu
+

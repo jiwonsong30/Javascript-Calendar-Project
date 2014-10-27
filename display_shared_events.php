@@ -2,25 +2,16 @@
 header("Content-Type: application/json");
 ini_set("session.cookie_httponly", 1);
 session_start();
-if(!isset($_SESSION['username'])){
-	$data[]=null;
-	echo json_encode(array(
-	    "success" => "true",
-	    "data"=>$data,
-	));
-	exit;
-}
-
-$username = $_SESSION['username'];
-//$token = $_SESSION['token'];
+$shared_username = $_POST['shared_by'];
+ 
 $mysqli = new mysqli('localhost', 'module5', 'amyjiwon', 'module5');
  
 if($mysqli->connect_errno) {
 	printf("Connection Failed: %s\n", $mysqli->connect_error);
 	exit;
 }
-
-$query = "SELECT event_ID, begin_time, end_time, date, event, category
+// 
+$query = "SELECT event_ID, begin_time, end_time, date, event
 		FROM events
 		WHERE (username_event = ?)";
 	  
@@ -29,9 +20,9 @@ if(!$stmt){
 	printf("Something wrong: %s\n", $mysqli->error);
 	exit;
 }
-$stmt->bind_param('s', $username);
+$stmt->bind_param('s', $shared_username);
 $stmt->execute();
-$stmt->bind_result($id, $begin, $end, $date, $event, $category);
+$stmt->bind_result($id, $begin, $end, $date, $event);
 $stmt->store_result();
 $count = $stmt->num_rows;
 if($count>=1){
@@ -42,8 +33,7 @@ if($count>=1){
 			"begin"=>htmlentities($begin),
 			"end"=>htmlentities($end),
 			"date"=>htmlentities($date),
-			"event"=>htmlentities($event),
-			"tag"=>htmlentities($category)
+			"event"=>htmlentities($event)
 		);
 	}
 	echo json_encode(array(
@@ -58,12 +48,11 @@ if($count>=1){
 			"begin"=>htmlentities($begin),
 			"end"=>htmlentities($end),
 			"date"=>htmlentities($date),
-			"event"=>htmlentities($event),
-			"tag"=>htmlentities($category)
+			"event"=>htmlentities($event)
 		);
     echo json_encode(array(
 	"success" => "true",
-    "data"=>$data,
+        "data"=>$data,
 	));
 	exit;
 }else{
